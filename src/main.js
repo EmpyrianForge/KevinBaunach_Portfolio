@@ -24,6 +24,17 @@ dracoLoader.setDecoderPath("/draco/");
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 
+//________________H2C Test_______________________
+const h2cBake = textureLoader.load("/textures/Test.webp"); // Pfad anpassen
+h2cBake.flipY = false;
+h2cBake.encoding = THREE.sRGBEncoding;
+
+const h2cBakedMaterial = new THREE.MeshBasicMaterial({
+  map: h2cBake,
+});
+//________________H2C Test_______________________
+
+
 const enviromentMap = new THREE.CubeTextureLoader()
     .setPath("/textures/skybox/")
     .load([
@@ -48,6 +59,9 @@ const textureMap = {
     },
     Fourth: {
         day:"/textures/4LittleShit.webp"
+    },
+    Fifth: {
+        day:"/textures/Test.webp"
     },
 };
 
@@ -74,6 +88,21 @@ const glassMaterial = new THREE.MeshPhysicalMaterial({
     thickness: 0.1,
     depthWrite: false,
 });
+
+//________________________H2C Test_________________________
+const glassGreen = new THREE.MeshPhysicalMaterial({
+    color: 0x088223FF,
+    metalness: 0,
+    roughness: 0,
+    transparent: true,
+    opacity: 0.25,
+    ior: 1.5,
+    envMap: enviromentMap,
+    transmission: 1,
+    thickness: 0.1,
+    depthWrite: false,
+});
+//________________________H2C Test_________________________
 const whiteMaterial = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
 });
@@ -106,6 +135,10 @@ loader.load("/models/Roomgood-v1.glb", (glb) => {
       });
     }else if (child.name.includes("Glass")) {
       child.material = glassMaterial;
+      //________________________H2C Test_________________________
+    }else if (child.name.includes("GlassGreen")) {
+      child.material = glassGreen; 
+      //________________________H2C Test_________________________ 
     }else if (child.name.includes("White")) {
       child.material = whiteMaterial;
     }else if (child.name.includes("Screen")) {
@@ -135,6 +168,59 @@ loader.load("/models/Roomgood-v1.glb", (glb) => {
   glb.scene.scale.setScalar(0.1);        // Gleichmäßig auf 30%
   camera.position.z = 45;                // Kamera weiter weg
 });
+
+
+
+//______________H2C Test_________________________
+//EXPERIMENTAL H2C LOADING WITH SCALING AND CENTERING
+
+loader.load("/models/Test.glb", (glb) => {
+  const h2c = glb.scene;
+  
+
+  // 1. Bounding Box auslesen
+  const box = new THREE.Box3().setFromObject(h2c);
+  const size = new THREE.Vector3();
+  box.getSize(size);
+  console.log("H2c size BEFORE:", size);
+
+  // 2. Zielgröße festlegen, z.B. 1 Einheit in der größten Dimension
+  const maxDimension = Math.max(size.x, size.y, size.z);
+  const scaleFactor = 50 / maxDimension;   // passt größte Kante auf 1
+
+  h2c.scale.setScalar(scaleFactor);
+
+  // 3. Nach dem Skalieren noch einmal Box3 berechnen
+  const box2 = new THREE.Box3().setFromObject(h2c);
+  const size2 = new THREE.Vector3();
+  box2.getSize(size2);
+  console.log("H2c size AFTER:", size2);
+
+  // 4. Mittelpunkt auf (0,0,0) setzen
+  const center = new THREE.Vector3();
+  box2.getCenter(center);
+  h2c.position.sub(center);
+
+  // nach dem Skalieren und Center-Shift
+h2c.position.set(0, 0, 0);      // erstmal Ursprung
+scene.add(h2c);
+
+// Kamera so setzen, dass du ihn sicher siehst:
+camera.position.set(0, 2, 5);
+camera.lookAt(0, 0, 0);
+
+h2c.traverse((child) => {
+  if (!child.isMesh) return;
+  child.material = h2cBakedMaterial;
+});
+
+  scene.add(h2c);
+});
+
+
+
+//______________H2C Test_________________________
+//EXPERIMENT ENDE
 
 
 
@@ -180,16 +266,19 @@ window.addEventListener('resize', () => {
     // Update renderer
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
 });
 
 const render = () => {
     controls.update();
 
-    console.log(camera.position);
-    console.log("00000000000000");
-    console.log(controls.target);
+    //console.log(camera.position);
+    //console.log("00000000000000");
+    //console.log(controls.target);
     
     renderer.render( scene, camera );
+    renderer.setClearColor(0x222222);
+
 
     window.requestAnimationFrame( render );
 }
