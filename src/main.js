@@ -120,7 +120,7 @@ const videoTexture = new THREE.VideoTexture(videoElement);
 videoTexture.colorSpace = THREE.SRGBColorSpace;
 videoTexture.flipY = false;
 
-loader.load("/models/Roomgood-v1.glb", (glb) => {
+loader.load("/models/Roomtest-v1.glb", (glb) => {
   glb.scene.traverse((child) => {
     if (child.isMesh) {
             if (child.name.includes("Water")) {
@@ -164,9 +164,9 @@ loader.load("/models/Roomgood-v1.glb", (glb) => {
   });
 
   scene.add(glb.scene);
-  glb.scene.scale.set(0.1, 0.1, 0.1);   // 50% Größe // oder
-  glb.scene.scale.setScalar(0.1);        // Gleichmäßig auf 30%
-  camera.position.z = 45;                // Kamera weiter weg
+  glb.scene.scale.set(1, 1, 1);   // 50% Größe // oder
+  glb.scene.scale.setScalar(3.3);        // Gleichmäßig auf 3.3 passt perfekt mir import H2C
+  //camera.position.z = 45;                // Kamera weiter weg
 });
 
 
@@ -206,8 +206,8 @@ h2c.position.set(0, 0, 0);      // erstmal Ursprung
 scene.add(h2c);
 
 // Kamera so setzen, dass du ihn sicher siehst:
-camera.position.set(0, 2, 5);
-camera.lookAt(0, 0, 0);
+//camera.position.set(0, 2, 5);
+//camera.lookAt(0, 0, 0);
 
 h2c.traverse((child) => {
   if (!child.isMesh) return;
@@ -234,7 +234,7 @@ const camera = new THREE.PerspectiveCamera(
     1000 
 );
 
-camera.position.set(98.35682075158908,46.704396522969226,86.44092573698502)
+camera.position.set(109.35682075158908,35.704396522969226,-77.44092573698502)
 
 const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -250,18 +250,17 @@ renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.update();
 controls.target.set(-15.032524979835078,13.056863836526139,-11.60751480655244)
-
+controls.update();
 
 //Event Listener
 window.addEventListener('resize', () => {
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    //Update camera
+    //camera.aspect = sizes.width / sizes.height;
+    //camera.updateProjectionMatrix();
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height);
