@@ -132,7 +132,7 @@ window.addEventListener("mousemove", (e) => {
 });
   
 
-loader.load("/models/Roomtest-v1.glb", (glb) => {
+loader.load("/models/RoomUP-v1.glb", (glb) => {
   glb.scene.traverse((child) => {
     if (child.isMesh) {
             if (child.name.includes("Water")) {
