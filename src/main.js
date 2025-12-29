@@ -30,15 +30,15 @@ dracoLoader.setDecoderPath("/draco/");
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 
-//________________H2C Test_______________________
-const h2cBake = textureLoader.load("/textures/Test.webp"); // Pfad anpassen
-h2cBake.flipY = false;
-h2cBake.encoding = THREE.sRGBEncoding;
-
-const h2cBakedMaterial = new THREE.MeshBasicMaterial({
-  map: h2cBake,
-});
-//________________H2C Test_______________________
+////________________H2C Test_______________________
+//const h2cBake = textureLoader.load("/textures/Test.webp"); // Pfad anpassen
+//h2cBake.flipY = false;
+//h2cBake.encoding = THREE.sRGBEncoding;
+//
+//const h2cBakedMaterial = new THREE.MeshBasicMaterial({
+//  map: h2cBake,
+//});
+////________________H2C Test_______________________
 
 
 const enviromentMap = new THREE.CubeTextureLoader()
@@ -55,19 +55,25 @@ const enviromentMap = new THREE.CubeTextureLoader()
 
 const textureMap = {
     First: {
-        day:"/textures/1RoomBake.webp"
+        day:"/textures/1bakeake.webp"
     },
     Second: {
-        day:"/textures/2Shelfs.webp"
+        day:"/textures/2bake.webp"
     },
     Third: {
-        day:"/textures/3Machines.webp"
+        day:"/textures/3bake.webp"
     },
     Fourth: {
-        day:"/textures/4LittleShit.webp"
+        day:"/textures/4bake.webp"
     },
     Fifth: {
-        day:"/textures/Test.webp"
+        day:"/textures/5bake.webp"
+    },
+    Six: {
+        day:"/textures/6bake.webp"
+    },
+    Seven: {
+        day:"/textures/bake.webp"
     },
 };
 
@@ -113,18 +119,18 @@ const whiteMaterial = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
 });
 
-const videoElement = document.createElement("video");
-videoElement.src = "/textures/video";
-videoElement.crossOrigin = "anonymous";
-videoElement.loop = true;
-videoElement.playsInline = true;
-videoElement.muted = true;
-videoElement.autoplay = true;
-videoElement.play();
-
-const videoTexture = new THREE.VideoTexture(videoElement);
-videoTexture.colorSpace = THREE.SRGBColorSpace;
-videoTexture.flipY = false;
+//const videoElement = document.createElement("video");
+//videoElement.src = "/textures/video";
+//videoElement.crossOrigin = "anonymous";
+//videoElement.loop = true;
+//videoElement.playsInline = true;
+//videoElement.muted = true;
+//videoElement.autoplay = true;
+//videoElement.play();
+//
+//const videoTexture = new THREE.VideoTexture(videoElement);
+//videoTexture.colorSpace = THREE.SRGBColorSpace;
+//videoTexture.flipY = false;
 
 window.addEventListener("mousemove", (e) => {
   pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -155,7 +161,7 @@ loader.load("/models/RoomUP-v1.glb", (glb) => {
       child.material = whiteMaterial;
     }else if (child.name.includes("Screen")) {
       child.material = new THREE.MeshPhysicalMaterial({
-        map: VideoTexture,
+        //map: VideoTexture,
       });
     } else{
     Object.keys(textureMap).forEach((key) => {
@@ -187,8 +193,8 @@ loader.load("/models/RoomUP-v1.glb", (glb) => {
   });
 
   scene.add(glb.scene);
-  glb.scene.scale.set(1, 1, 1);   // 50% Größe // oder
-  glb.scene.scale.setScalar(3.3);        // Gleichmäßig auf 3.3 passt perfekt mir import H2C
+  glb.scene.scale.set(0.01, 0.01, 0.01);   // 50% Größe // oder
+  glb.scene.scale.setScalar(.01);        // Gleichmäßig auf 3.3 passt perfekt mir import H2C
   //camera.position.z = 45;                // Kamera weiter weg
 });
 
@@ -197,48 +203,48 @@ loader.load("/models/RoomUP-v1.glb", (glb) => {
 //______________H2C Test_________________________
 //EXPERIMENTAL H2C LOADING WITH SCALING AND CENTERING
 
-loader.load("/models/Test.glb", (glb) => {
-  const h2c = glb.scene;
-  
-
-  // 1. Bounding Box auslesen
-  const box = new THREE.Box3().setFromObject(h2c);
-  const size = new THREE.Vector3();
-  box.getSize(size);
-  console.log("H2c size BEFORE:", size);
-
-  // 2. Zielgröße festlegen, z.B. 1 Einheit in der größten Dimension
-  const maxDimension = Math.max(size.x, size.y, size.z);
-  const scaleFactor = 50 / maxDimension;   // passt größte Kante auf 1
-
-  h2c.scale.setScalar(scaleFactor);
-
-  // 3. Nach dem Skalieren noch einmal Box3 berechnen
-  const box2 = new THREE.Box3().setFromObject(h2c);
-  const size2 = new THREE.Vector3();
-  box2.getSize(size2);
-  console.log("H2c size AFTER:", size2);
-
-  // 4. Mittelpunkt auf (0,0,0) setzen
-  const center = new THREE.Vector3();
-  box2.getCenter(center);
-  h2c.position.sub(center);
-
-  // nach dem Skalieren und Center-Shift
-h2c.position.set(0, 0, 0);      // erstmal Ursprung
-scene.add(h2c);
-
-// Kamera so setzen, dass du ihn sicher siehst:
-//camera.position.set(0, 2, 5);
-//camera.lookAt(0, 0, 0);
-
-h2c.traverse((child) => {
-  if (!child.isMesh) return;
-  child.material = h2cBakedMaterial;
-});
-
-  scene.add(h2c);
-});
+//loader.load("/models/Test.glb", (glb) => {
+//  const h2c = glb.scene;
+//  
+//
+//  // 1. Bounding Box auslesen
+//  const box = new THREE.Box3().setFromObject(h2c);
+//  const size = new THREE.Vector3();
+//  box.getSize(size);
+//  console.log("H2c size BEFORE:", size);
+//
+//  // 2. Zielgröße festlegen, z.B. 1 Einheit in der größten Dimension
+//  const maxDimension = Math.max(size.x, size.y, size.z);
+//  const scaleFactor = 50 / maxDimension;   // passt größte Kante auf 1
+//
+//  h2c.scale.setScalar(scaleFactor);
+//
+//  // 3. Nach dem Skalieren noch einmal Box3 berechnen
+//  const box2 = new THREE.Box3().setFromObject(h2c);
+//  const size2 = new THREE.Vector3();
+//  box2.getSize(size2);
+//  console.log("H2c size AFTER:", size2);
+//
+//  // 4. Mittelpunkt auf (0,0,0) setzen
+//  const center = new THREE.Vector3();
+//  box2.getCenter(center);
+//  h2c.position.sub(center);
+//
+//  // nach dem Skalieren und Center-Shift
+//h2c.position.set(0, 0, 0);      // erstmal Ursprung
+//scene.add(h2c);
+//
+//// Kamera so setzen, dass du ihn sicher siehst:
+////camera.position.set(0, 2, 5);
+////camera.lookAt(0, 0, 0);
+//
+//h2c.traverse((child) => {
+//  if (!child.isMesh) return;
+//  child.material = h2cBakedMaterial;
+//});
+//
+//  scene.add(h2c);
+//});
 
 
 
