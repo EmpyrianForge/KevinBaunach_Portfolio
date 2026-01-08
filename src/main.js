@@ -1,6 +1,6 @@
 import "./style.scss";
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "./utils/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import gsap from "gsap";
@@ -68,7 +68,10 @@ let currentIntersects = [];
 let previousHover = null;
 //My Fix
 let hoveredObjects = [];
+let activeHoverObjects = new Set();
 //______________
+
+let currentHoverObject = null;
 
 const socialLinks = {
   InstaButton: "https://www.instagram.com",
@@ -233,12 +236,28 @@ window.addEventListener("click", (e) => {
   }
 });
 
-loader.load("/models/RoomUP-1-v1.glb", (glb) => {
+loader.load("/models/Portfolio_Room.glb", (glb) => {
   glb.scene.traverse((child) => {
     if (child.isMesh) {
       if (child.name.includes("__Raycaster")) {
         raycasterObjects.push(child);
       }
+      if (child.name.includes("_Hover")) {
+        child.userData.initialScale = new THREE.Vector3().copy(child.scale);
+        child.userData.initialPosition = new THREE.Vector3().copy(
+          child.position
+        );
+        child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
+        child.userData.isAnimating = false;
+
+        // ✅ NEU: Hover-Zielwerte RELATIV berechnen
+        child.userData.hoverScale = new THREE.Vector3()
+          .copy(child.scale)
+          .multiplyScalar(1.5); // 1.5x der Original-Größe
+
+        console.log("Hover transformiert:", child.name);
+      }
+
       if (child.name.includes("Water")) {
         child.material = new THREE.MeshPhysicalMaterial({
           color: 0x55b8c8,
@@ -293,9 +312,83 @@ loader.load("/models/RoomUP-1-v1.glb", (glb) => {
   scene.add(glb.scene);
   glb.scene.scale.set(0.01, 0.01, 0.01); // 50% Größe // oder
   glb.scene.scale.setScalar(0.01); // Gleichmäßig auf 3.3 passt perfekt mir import H2C
-  //camera.position.z = 45;                // Kamera weiter weg
+  playIntroAnimation();
 });
 
+// Intro Animation
+// Objekte müssen in den load via child.name.includes eingebunden werden und dann child.scale.set
+//function playIntroAnimation() {
+//  const t1 = gsap.timeline({
+//    defaults: {
+//      duration: 0.8,
+//      ease: "back.out(1.7)",
+//    },
+//  });
+//
+//  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
+//  t1.to(
+//    Shield_MYWork.scale,
+//    {
+//      x: 1,
+//      z: 1,
+//    },
+//    "-=0.5"
+//  )
+//    .to(
+//      Shield_About.scale,
+//      {
+//        x: 1,
+//        y: 1,
+//        z: 1,
+//      },
+//      "-=0.5"
+//    )
+//    .to(
+//      Shield_Contact.scale,
+//      {
+//        x: 1,
+//        y: 1,
+//        z: 1,
+//      },
+//      "-=0.5"
+//    );
+//    //T2 = zweiter animationsdurchlauf, falls benötigt
+//  const t2 = gsap.timeline({
+//    defaults: {
+//      duration: 0.8,
+//      ease: "back.out(1.7)",
+//    },
+//  });
+//
+//  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
+//  //t2 = maschinenanimation
+//  t2.to(
+//    H2C.scale,
+//    {
+//      x: 1,
+//      z: 1,
+//    },
+//    "-=0.5"
+//  )
+//    .to(
+//      ***.scale,
+//      {
+//        x: 1,
+//        y: 1,
+//        z: 1,
+//      },
+//      "-=0.5"
+//    )
+//    .to(
+//      ***.scale,
+//      {
+//        x: 1,
+//        y: 1,
+//        z: 1,
+//      },
+//      "-=0.5"
+//    );
+//}
 //______________H2C Test_________________________
 //EXPERIMENTAL H2C LOADING WITH SCALING AND CENTERING
 
@@ -365,6 +458,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 //scene.add( cube );
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.minDistance = 20;
+controls.maxDistance = 140;
+controls.minPolarAngle = 0;
+controls.maxPolarAngle = Math.PI / 2;
+controls.minAzimuthAngle = Math.PI / 2;
+controls.maxAzimuthAngle = Math.PI;
+
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.target.set(
@@ -399,40 +499,75 @@ const render = () => {
   });
 
   raycaster.setFromCamera(pointer, camera);
-  currentIntersects = raycaster.intersectObjects(raycasterObjects, true);
+  currentIntersects = raycaster.intersectObjects(scene.children, true);
 
-  // 1. ALLE vorherigen zurücksetzen
-  hoveredObjects.forEach((obj) => {
-    if (obj.userData.originalMaterial) {
-      obj.material = obj.userData.originalMaterial;
-    }
-  });
-  hoveredObjects = [];
-
-  // 2. NUR Raycaster-Objekte + MATERIAL KLONEN!
+  // Aktuell gehoverte ermitteln
+  const currentHovered = new Set();
   currentIntersects.forEach((intersect) => {
     const obj = intersect.object;
-
-    if (raycasterObjects.includes(obj)) {
-      // ORIGINAL MATERIAL speichern
-      if (!obj.userData.originalMaterial) {
-        obj.userData.originalMaterial = obj.material.clone(); // KLONEN!
-      }
-
-      // NEUES Material für Hover
-      //const hoverMaterial = obj.userData.originalMaterial.clone();
-      //hoverMaterial.color.set(0xff0000);
-      //obj.material = hoverMaterial;
-
-      hoveredObjects.push(obj);
+    if (raycasterObjects.includes(obj) || obj.name.includes("_Hover")) {
+      currentHovered.add(obj);
+      activeHoverObjects.add(obj); // Zum Tracking hinzufügen
     }
   });
 
-  document.body.style.cursor = hoveredObjects.some((obj) =>
-    obj.name.includes("Pointer")
-  )
-    ? "pointer"
-    : "default";
+  // 1. ALLE aktiven Hover-Objekte resetten/animieren
+  activeHoverObjects.forEach((obj) => {
+    const isHovered = currentHovered.has(obj);
+
+    // Material
+    if (isHovered) {
+      if (!obj.userData.originalMaterial) {
+        obj.userData.originalMaterial = obj.material.clone();
+      }
+      const hoverMaterial = obj.userData.originalMaterial.clone();
+      hoverMaterial.color.set(
+        obj.name.includes("_Hover") ? 0xffffff00 : 0xffffff00
+      );
+      obj.material = hoverMaterial;
+    } else {
+      if (obj.userData.originalMaterial) {
+        obj.material = obj.userData.originalMaterial;
+      }
+    }
+
+    // Transform
+    if (obj.userData.initialScale) {
+      const targetScale =
+        isHovered && obj.userData.hoverScale
+          ? obj.userData.hoverScale
+          : obj.userData.initialScale;
+
+      obj.scale.lerp(targetScale, 0.12);
+      obj.position.lerp(obj.userData.initialPosition, 0.12);
+      obj.rotation.x = THREE.MathUtils.lerp(
+        obj.rotation.x,
+        obj.userData.initialRotation.x,
+        0.12
+      );
+      obj.rotation.y = THREE.MathUtils.lerp(
+        obj.rotation.y,
+        obj.userData.initialRotation.y,
+        0.12
+      );
+      obj.rotation.z = THREE.MathUtils.lerp(
+        obj.rotation.z,
+        obj.userData.initialRotation.z,
+        0.12
+      );
+
+      // ✅ Entfernen wenn vollständig zurückgesetzt (Distanz < 0.01)
+      if (
+        !isHovered &&
+        obj.scale.distanceTo(obj.userData.initialScale) < 0.01
+      ) {
+        activeHoverObjects.delete(obj);
+      }
+    }
+  });
+
+  // Cursor
+  document.body.style.cursor = currentHovered.size > 0 ? "pointer" : "default";
 
   renderer.render(scene, camera);
   renderer.setClearColor(0x222222);
