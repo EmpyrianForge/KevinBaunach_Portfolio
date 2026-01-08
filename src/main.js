@@ -250,7 +250,7 @@ loader.load("/models/Portfolio_Room.glb", (glb) => {
         child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
         child.userData.isAnimating = false;
 
-        // ✅ NEU: Hover-Zielwerte RELATIV berechnen
+        // Hover-Zielwerte RELATIV berechnen
         child.userData.hoverScale = new THREE.Vector3()
           .copy(child.scale)
           .multiplyScalar(1.5); // 1.5x der Original-Größe
