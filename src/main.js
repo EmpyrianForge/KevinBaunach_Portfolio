@@ -61,6 +61,20 @@ const hideModal = (modal) => {
 const zAxisFans = [];
 const yAxisFans = [];
 
+const animatedObjects = {
+  Shield_MyWork: null,
+  Shield_About: null,
+  Shield_Contact: null,
+  H2C: null, 
+  H2C_GlassG: null,
+  GitHubFront: null,
+  InstaButton: null,
+  MakerWorldButton: null,
+  ResinFormlabs_Glass: null,
+  ResinFormlabs: null,
+
+};
+
 const raycasterObjects = [];
 //Main try
 let currentIntersects = [];
@@ -89,8 +103,87 @@ const textureLoader = new THREE.TextureLoader();
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/draco/");
 
-const loader = new GLTFLoader();
+const manager = new THREE.LoadingManager();
+
+const loadingScreen = document.querySelector(".loading-screen");
+const loadingScreenButton = document.querySelector(".loading-screen-button");
+
+manager.onLoad = function () {
+  loadingScreenButton.style.border = "8px solid #55293A";
+  loadingScreenButton.style.backgroundColor = "#A6754A";
+  loadingScreenButton.style.color = "#e6dede";
+  loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px ";
+  loadingScreenButton.textContent = "Click to Enter";
+  loadingScreenButton.style.cursor = "pointer";
+  loadingScreenButton.style.transition =
+    "transform 0,4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+
+  document.body.style.visibility = "visible"; 
+
+  let isDisabled = false;
+  
+  function handleEnter() {
+    if (isDisabled) return;
+
+    loadingScreenButton.style.border = "8px solid #6e5e9c";
+    loadingScreenButton.style.background = "#ead7ef";
+    loadingScreenButton.style.color = "#6e5e9c";
+    loadingScreenButton.style.boxShadow = "none";
+    loadingScreenButton.textContent = "Entering...";
+    loadingScreen.style.background = "#ead7ef";
+    isDisabled = true;
+    playReaveal();
+  }
+    // document.querySelector
+    //document.querySelector
+
+    loadingScreenButton.addEventListener("mouseenter", () => {
+      loadingScreenButton.style.transform = "scale(1.3)";
+    });
+
+    loadingScreenButton.addEventListener("touchend", (e) => {
+      touchHappend = true;
+      e.preventDefault();
+      handleEnter();
+    });
+
+    loadingScreenButton.addEventListener("click", (e) => {
+      if (touchHappend) return;
+      handleEnter();
+    });
+
+    loadingScreenButton.addEventListener("mouseleave", () => {
+      loadingScreenButton.style.transform = "none";
+    });
+  };
+
+
+function playReaveal() {
+  const tl = gsap.timeline({});
+  tl.to(".loading-screen", {
+    scale: 0.5,
+    duration: 1.2,
+    delay: 0.25,
+    ease: "back.in(1.7)",
+  }).to(
+    ".loading-screen", 
+    {
+      y: "200vh",
+      transform: " perspective(1000px) rotateX(45deg) rotateY(-35deg)",
+      duration: 1.5,
+      ease: "back.in(1.7)",
+      onComplete: () => {
+        playIntroAnimation();
+        loadingScreen.remove();
+      },
+    },
+    "-=0.1"
+  );
+};
+
+const loader = new GLTFLoader(manager);
 loader.setDRACOLoader(dracoLoader);
+
 
 ////________________H2C Test_______________________
 //const h2cBake = textureLoader.load("/textures/Test.webp"); // Pfad anpassen
@@ -239,9 +332,7 @@ window.addEventListener("click", (e) => {
 loader.load("/models/Portfolio_Room.glb", (glb) => {
   glb.scene.traverse((child) => {
     if (child.isMesh) {
-      if (child.name.includes("__Raycaster")) {
-        raycasterObjects.push(child);
-      }
+
       if (child.name.includes("_Hover")) {
         child.userData.initialScale = new THREE.Vector3().copy(child.scale);
         child.userData.initialPosition = new THREE.Vector3().copy(
@@ -256,6 +347,48 @@ loader.load("/models/Portfolio_Room.glb", (glb) => {
           .multiplyScalar(1.5); // 1.5x der Original-Größe
 
         console.log("Hover transformiert:", child.name);
+      }
+
+      // Speichere Objekte für Animationen
+      if (child.name.includes("Shield_MyWork")) {
+        animatedObjects.Shield_MyWork = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Shield_About")) {
+        animatedObjects.Shield_About = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Shield_Contact")) {
+        animatedObjects.Shield_Contact = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("H2C")) {
+        animatedObjects.H2C = child;
+        child.userData.originalScale = child.scale.clone();
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("H2C_GlassG")) {
+        animatedObjects.H2C_GlassG = child;
+        child.userData.originalScale = child.scale.clone();
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("GitHubFront")) {
+        animatedObjects.GitHubFront = child;
+        child.scale.set(0, 0, 0);
+      }
+      
+      if (child.name.includes("InstaButton")) {
+        animatedObjects.InstaButton = child;
+        child.scale.set(0, 0, 0);
+      }
+      
+      if (child.name.includes("MakerWorldButton")) {
+        animatedObjects.MakerWorldButton = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("__Raycaster")) {
+        raycasterObjects.push(child);
       }
 
       if (child.name.includes("Water")) {
@@ -312,83 +445,108 @@ loader.load("/models/Portfolio_Room.glb", (glb) => {
   scene.add(glb.scene);
   glb.scene.scale.set(0.01, 0.01, 0.01); // 50% Größe // oder
   glb.scene.scale.setScalar(0.01); // Gleichmäßig auf 3.3 passt perfekt mir import H2C
-  playIntroAnimation();
+  
 });
 
-// Intro Animation
-// Objekte müssen in den load via child.name.includes eingebunden werden und dann child.scale.set
-//function playIntroAnimation() {
-//  const t1 = gsap.timeline({
-//    defaults: {
-//      duration: 0.8,
-//      ease: "back.out(1.7)",
-//    },
-//  });
-//
-//  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
-//  t1.to(
-//    Shield_MYWork.scale,
-//    {
-//      x: 1,
-//      z: 1,
-//    },
-//    "-=0.5"
-//  )
-//    .to(
-//      Shield_About.scale,
-//      {
-//        x: 1,
-//        y: 1,
-//        z: 1,
-//      },
-//      "-=0.5"
-//    )
-//    .to(
-//      Shield_Contact.scale,
-//      {
-//        x: 1,
-//        y: 1,
-//        z: 1,
-//      },
-//      "-=0.5"
-//    );
-//    //T2 = zweiter animationsdurchlauf, falls benötigt
-//  const t2 = gsap.timeline({
-//    defaults: {
-//      duration: 0.8,
-//      ease: "back.out(1.7)",
-//    },
-//  });
-//
-//  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
-//  //t2 = maschinenanimation
-//  t2.to(
-//    H2C.scale,
-//    {
-//      x: 1,
-//      z: 1,
-//    },
-//    "-=0.5"
-//  )
-//    .to(
-//      ***.scale,
-//      {
-//        x: 1,
-//        y: 1,
-//        z: 1,
-//      },
-//      "-=0.5"
-//    )
-//    .to(
-//      ***.scale,
-//      {
-//        x: 1,
-//        y: 1,
-//        z: 1,
-//      },
-//      "-=0.5"
-//    );
-//}
+ //Intro Animation
+ //Objekte müssen in den load via child.name.includes eingebunden werden und dann child.scale.set
+function playIntroAnimation() {
+  if (!animatedObjects.Shield_MyWork) {
+    console.warn("Objekte noch nicht geladen!");
+    setTimeout(() => playIntroAnimation(), 100);
+    return;
+  }
+
+  const t1 = gsap.timeline({
+    defaults: {
+      duration: 1,
+      ease: "power2.out",
+    },
+  });
+  
+
+  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
+  //GSAP TO funktion
+  t1.to(
+    animatedObjects.Shield_MyWork.scale,
+    {
+      x: 1,
+      z: 1,
+      y: 1,
+    },
+  )
+    .to(
+      animatedObjects.Shield_About.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7"
+    )
+    .to(
+      animatedObjects.Shield_Contact.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7"
+    )
+    .to(
+      animatedObjects.H2C.scale,
+      {
+        x: 0.3,
+        y: 0.4,
+        z: 0.4,
+      },
+      "-=0.7"
+    )
+    .to(
+      animatedObjects.H2C_GlassG.scale,
+      {
+        x: 0.3,
+        y: 0.4,
+        z: 0.4,
+      },
+      "-=0.7"
+    );
+
+  //T2 = zweiter animationsdurchlauf, falls benötigt
+  const t2 = gsap.timeline({
+    defaults: {
+      duration: 0.8,
+      ease: "back.out(1.7)",
+    },
+  });
+  //WICHTIG: item.scale, = der vorherdefinierte childname von blender
+  t2.to(
+  animatedObjects.GitHubFront.scale,
+  {
+    x: 1,
+    y: 1,
+    z: 1,
+  }
+  )
+  .to(
+    animatedObjects.InstaButton.scale,
+    {
+      x: 1,
+      y: 1,
+      z: 1,
+    },
+    "-=0.5"
+  )
+  .to(
+    animatedObjects.MakerWorldButton.scale,
+    {
+      x: 0.3,
+      y: 0.3,
+      z: 0.3,
+    },
+    "-=0.5"
+  );
+}
 //______________H2C Test_________________________
 //EXPERIMENTAL H2C LOADING WITH SCALING AND CENTERING
 
@@ -457,6 +615,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 //const cube = new THREE.Mesh( geometry, material );
 //scene.add( cube );
 
+
+// Einstellungen Startansicht
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 20;
 controls.maxDistance = 140;
@@ -480,8 +640,8 @@ window.addEventListener("resize", () => {
   sizes.height = window.innerHeight;
 
   //Update camera
-  //camera.aspect = sizes.width / sizes.height;
-  //camera.updateProjectionMatrix();
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
 
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
@@ -556,7 +716,7 @@ const render = () => {
         0.12
       );
 
-      // ✅ Entfernen wenn vollständig zurückgesetzt (Distanz < 0.01)
+      // Entfernen wenn vollständig zurückgesetzt (Distanz < 0.01)
       if (
         !isHovered &&
         obj.scale.distanceTo(obj.userData.initialScale) < 0.01

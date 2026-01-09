@@ -48,3 +48,33 @@
   display: none;
   background: vars.$base-grey;
 }
+
+.loading-screen {
+  position: fixed;
+  top: -4vh;
+  left: -4vw;
+  width: 108vw;
+  height: 108vh;
+  //margin-top: -54vw;
+  //margin-left: -54vh;
+  overflow: hidden;
+  background: vars.$Loading-screen-red;
+  border: 8px solid vars.$base-grey;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  opacity: 1 !important;
+  transform: perspective(1000px);
+  border-radius: 48px;
+}
+
+.loading-screen-button {
+  font-size: 42px;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 1.2rem;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
