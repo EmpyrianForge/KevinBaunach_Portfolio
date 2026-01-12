@@ -66,7 +66,7 @@ const animatedObjects = {
   Shield_About: null,
   Shield_Contact: null,
   H2C: null, 
-  H2C_GlassG: null,
+  H2C_Green: null,
   GitHubFront: null,
   InstaButton: null,
   MakerWorldButton: null,
@@ -329,7 +329,7 @@ window.addEventListener("click", (e) => {
   }
 });
 
-loader.load("/models/Portfolio_Room.glb", (glb) => {
+loader.load("/models/Test-v1.glb", (glb) => {
   glb.scene.traverse((child) => {
     if (child.isMesh) {
 
@@ -367,8 +367,8 @@ loader.load("/models/Portfolio_Room.glb", (glb) => {
         child.userData.originalScale = child.scale.clone();
         child.scale.set(0, 0, 0);
       }
-      if (child.name.includes("H2C_GlassG")) {
-        animatedObjects.H2C_GlassG = child;
+      if (child.name.includes("H2C_Green")) {
+        animatedObjects.H2C_Green = child;
         child.userData.originalScale = child.scale.clone();
         child.scale.set(0, 0, 0);
       }
@@ -503,11 +503,11 @@ function playIntroAnimation() {
       "-=0.7"
     )
     .to(
-      animatedObjects.H2C_GlassG.scale,
+      animatedObjects.H2C_Green.scale,
       {
-        x: 0.3,
-        y: 0.4,
-        z: 0.4,
+        x: 1,
+        y: 1,
+        z: 1,
       },
       "-=0.7"
     );
