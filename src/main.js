@@ -121,7 +121,7 @@ manager.onLoad = function () {
   loadingScreenButton.textContent = "Click to Enter";
   loadingScreenButton.style.cursor = "pointer";
   loadingScreenButton.style.transition =
-    "transform 0,4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+    "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
   document.body.style.visibility = "visible"; 
 
