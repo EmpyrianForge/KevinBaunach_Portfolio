@@ -766,13 +766,26 @@ const render = () => {
 
     const y = bannerCanvas.height / 2 - iconSize / 2;
 
-    if (
+if (
       iconLoadStates[imgIndex] &&
       iconImages[imgIndex].complete &&
       iconImages[imgIndex].naturalWidth > 0
     ) {
       bannerCtx.shadowColor = "#00ffff";
       bannerCtx.shadowBlur = 20;
+
+      // Fade-Effekt berechnen
+      const fadeWidth = 150;
+      let alpha = 1;
+      
+      if (x < fadeWidth) {
+        alpha = x / fadeWidth;
+      } else if (x > bannerCanvas.width - fadeWidth - iconSize) {
+        alpha = (bannerCanvas.width - x - iconSize) / fadeWidth;
+      }
+      
+      alpha = Math.max(0, Math.min(1, alpha));
+      bannerCtx.globalAlpha = alpha;
 
       bannerCtx.save();
       bannerCtx.translate(x + iconSize / 2, y + iconSize / 2);
@@ -785,10 +798,13 @@ const render = () => {
         iconSize,
       );
       bannerCtx.restore();
+      
+      bannerCtx.globalAlpha = 1;
     }
   }
 
-  bannerCtx.shadowBlur = 0;
+bannerCtx.shadowBlur = 0;
+  
   bannerTexture.needsUpdate = true;
 
 // Performance: Raycaster nur ausführen wenn nicht dragging, kein Modal offen und Update benötigt
