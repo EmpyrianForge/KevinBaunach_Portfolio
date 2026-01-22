@@ -26,29 +26,31 @@
     <div class="work modal">
       <h2>My Work</h2>
       <p>
-        Als Fachinformatiker für Anwendungsentwicklung verbinde ich
-        Full-Stack-Webentwicklung mit 3D-Design und interaktiven
-        Visualisierungen. Mein Fokus liegt auf modernen Webtechnologien wie
-        Three.js, Vue und Vite sowie 3D-Modellierung in Blender und Fusion 360.
+        Als angehender Fachinformatiker für Anwendungsentwicklung verbinde ich
+        Webentwicklung mit 3D-Design und interaktiven Visualisierungen. Mein
+        aktueller Fokus liegt auf Embedded Systems, wie man mit ihnen agiert und
+        sie programmiert. Die Sprache C soll mir dabei helfen tiefere Einblicke
+        in Hardwarenähe zu gewinnen und Python hilft mir schneller Erfolge im
+        Prototyping zu erzielen.
       </p>
 
       <h3>Aktuelle Projekte</h3>
       <ul>
         <li>
-          <strong>KreativKonstruction:</strong> 3D-Druck-Business mit FDM und
-          Resin-Printing (Bambu Lab P1S, H2C)
+          <strong>KreativKonstruction:</strong> 3D-Druck mit FDM und Resin sowie
+          Lasercutting und gravieren.
         </li>
         <li>
-          <strong>Portfolio-Website:</strong> Interaktive 3D-Raumvisualisierung
-          mit Three.js, STL-Previewer und Canvas-Animationen
+          <strong>Portfolio-Website:</strong> Interaktive 3D-Visualisierung von
+          Modellen mit Three.js.
         </li>
         <li>
-          <strong>Game Engine Development:</strong> Unreal Engine 5 mit C++ und
-          Pixel Streaming
+          <strong>Fun Projekt:</strong> Eigener AI-Agent in Python geschrieben
+          und Gemini API anbindung.
         </li>
         <li>
           <strong>Embedded Systems:</strong> IoT-Projekte mit Raspberry Pi und
-          Arduino
+          Arduino (6DOF-Roboterarm / BCN3D).
         </li>
       </ul>
 
@@ -57,34 +59,31 @@
     <div class="about modal">
       <h2>About Me</h2>
       <p>
-        Ich bin IT-Anwendungsentwickler in der Umschulung (IHK) mit Leidenschaft
-        für 3D-Technologien und kreative Problemlösungen. Mein Arbeitsalltag
+        Ich bin IT-Anwendungsentwickler in der Umschulung mit Leidenschaft für
+        3D-Technologien und kreative Problemlösungen. Mein Arbeitsalltag
         kombiniert strukturiertes Lernen mit selbstgesteuerten Projekten in
         Web-, Game- und Embedded-Development.
       </p>
 
       <h3>Skills & Tools</h3>
       <ul>
+        <li><strong>Programming:</strong> Python, JavaScript, Java, C</li>
         <li>
-          <strong>Programming:</strong> C++, Python, JavaScript/TypeScript,
-          Java, GLSL
+          <strong>3D & Design:</strong> Blender, Autodesk Fusion 360, Unreal
+          Engine 5
         </li>
         <li>
-          <strong>3D & Design:</strong> Blender, Autodesk Fusion 360, Three.js,
-          Unreal Engine 5
-        </li>
-        <li>
-          <strong>Web Stack:</strong> Vue, Vite, Node.js, Git/GitHub, Vercel
+          <strong>Web Stack:</strong>Vite, Node.js, Git/GitHub, Vercel, GSAP
         </li>
         <li>
           <strong>Hardware:</strong> 3D-Printing (FDM/Resin), Raspberry Pi,
-          Arduino, Mikrocontroller
+          Arduino,
         </li>
       </ul>
 
       <p>
-        Aktuell erweitere ich mein Wissen in Graphics Programming, LWJGL und
-        IT-Management (ITIL, ISO 9001).
+        Aktuell erweitere ich mein Wissen in C um tiefer in die Welt des
+        Low-Levels eintauchen zu können.
       </p>
 
       <button class="modal-exit-button">EXIT BUTTON</button>
@@ -92,21 +91,34 @@
     <div class="contact modal">
       <h2>Contact</h2>
       <p>
-        Ich freue mich über Ihre Nachricht! Ob es um Webentwicklung, 3D-Projekte,
-        KreativKonstruction oder andere spannende Technologien geht - lassen Sie uns
-        in Kontakt treten.
+        Ich freue mich über Ihre Nachricht! Ob es um Webentwicklung,
+        3D-Projekte, oder andere spannende Technologien geht - lassen Sie uns in
+        Kontakt treten.
       </p>
 
       <h3>Kontaktmöglichkeiten</h3>
       <div class="contact-icons">
         <div class="contact-icon">
-          <div class="icon-placeholder email-icon">📧</div>
-          <span>Email</span>
+          <button
+            class="email-button"
+            onclick="window.location.href = 'mailto:kvnbaunach@googlemail.com'"
+          >
+            <div class="icon-placeholder email-icon">📧</div>
+            <span>Email</span>
+          </button>
         </div>
         <div class="contact-icon">
-          <div class="icon-placeholder github-icon">🔧</div>
-          <span>GitHub</span>
+          <a
+            href="https://github.com/EmpyrianForge"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="github-button"
+          >
+            <div class="icon-placeholder github-icon">🐙</div>
+            <span>GitHub</span>
+          </a>
         </div>
+
         <div class="contact-icon">
           <div class="icon-placeholder empty-icon">💼</div>
           <span>LinkedIn</span>

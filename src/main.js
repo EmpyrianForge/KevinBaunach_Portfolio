@@ -141,7 +141,21 @@ const animatedObjects = {
   MakerWorldButton: null,
   ResinFormlabs_Glass: null,
   ResinFormlabs: null,
-};
+  Dixiclock: null,
+  Gandalf: null,
+  Name_A1: null,
+  Name_A2: null,
+  Name_B: null,
+  Name_C: null,
+  Name_E: null,
+  Name_H: null,
+  Name_I: null,
+  Name_K: null,
+  Name_N1: null,
+  Name_N2: null,
+  Name_U: null,
+  Name_V: null,
+}
 
 const raycasterObjects = [];
 //Main try
@@ -521,6 +535,76 @@ loader.load("/models/Roomi-v1.glb", (glb) => {
         child.scale.set(0, 0, 0);
       }
 
+      if (child.name.includes("Dixiclock")) {
+        animatedObjects.Dixiclock = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Gandalf")) {
+        animatedObjects.Gandalf = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_A1")) {
+        animatedObjects.Name_A1 = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_A2")) {
+        animatedObjects.Name_A2 = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_B")) {
+        animatedObjects.Name_B = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_C")) {
+        animatedObjects.Name_C = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_E")) {
+        animatedObjects.Name_E = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_H")) {
+        animatedObjects.Name_H = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_I")) {
+        animatedObjects.Name_I = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_K")) {
+        animatedObjects.Name_K = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_N1")) {
+        animatedObjects.Name_N1 = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_N2")) {
+        animatedObjects.Name_N2 = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_U")) {
+        animatedObjects.Name_U = child;
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("Name_V")) {
+        animatedObjects.Name_V = child;
+        child.scale.set(0, 0, 0);
+      }
+
       if (child.name.includes("__Raycaster")) {
         raycasterObjects.push(child);
       }
@@ -677,7 +761,135 @@ function playIntroAnimation() {
         z: 0.3,
       },
       "-=0.5",
-    );
+    )
+
+     .to(
+      animatedObjects.Dixiclock.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.5",
+    )
+     .to(
+      animatedObjects.Gandalf.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.3",
+    )
+     .to(
+      animatedObjects.Name_K.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_E.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_V.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_I.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_N1.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_B.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_A1.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_U.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.3",
+    )
+     .to(
+      animatedObjects.Name_N2.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_A2.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_C.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+     .to(
+      animatedObjects.Name_H.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.7",
+    )
+    
 }
 
 const scene = new THREE.Scene();

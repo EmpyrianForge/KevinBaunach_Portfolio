@@ -70,6 +70,28 @@
   overflow-y: auto;
   max-height: 80vh;
 
+  scrollbar-width: thin;
+  scrollbar-color: vars.$base-red rgba(9, 9, 9, 0.3);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(9, 9, 9, 0.3);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: vars.$base-red;
+    border-radius: 10px;
+    border: 2px solid rgba(42, 42, 44, 0.5);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: lighten(vars.$base-red, 10%);
+  }
+
   &.work,
   &.about {
     h2 {
@@ -285,7 +307,11 @@
           }
 
           &.empty-icon {
-            background: linear-gradient(135deg, rgba(98, 45, 55, 0.3) 0%, rgba(98, 45, 55, 0.5) 100%);
+            background: linear-gradient(
+              135deg,
+              rgba(98, 45, 55, 0.3) 0%,
+              rgba(98, 45, 55, 0.5) 100%
+            );
             color: rgba(245, 245, 245, 0.5);
             border: 2px dashed rgba(98, 45, 55, 0.5);
           }
@@ -328,6 +354,19 @@
       }
     }
   }
+}
+
+.email-button {
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.github-button {
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: inherit;
 }
 
 .loading-screen {
