@@ -51,7 +51,7 @@ const showModal = (modal) => {
 };
 
 // Icon banner
-const bannerCanvas = document.createElement("canvas"); 
+const bannerCanvas = document.createElement("canvas");
 bannerCanvas.width = 1024;
 bannerCanvas.height = 576;
 const bannerCtx = bannerCanvas.getContext("2d");
@@ -97,11 +97,11 @@ const iconLoadStates = [];
 
 let bannerTime = 0;
 let bannerIcons = [];
-const iconSize = 256; 
+const iconSize = 256;
 
 const gap = 40;
 const totalWidthPerIcon = iconSize + gap;
-let marqueeOffset = 0; 
+let marqueeOffset = 0;
 
 // Icons Init
 const initBannerIcons = () => {
@@ -372,11 +372,11 @@ const blueMaterial = new THREE.MeshPhysicalMaterial({
 
 // Orange Glass Material für ResinFormlabs_Glass
 const orangeMaterial = new THREE.MeshPhysicalMaterial({
-  color: 0xff8c00, 
+  color: 0xff8c00,
   metalness: 0,
   roughness: 0,
   transparent: true,
-  opacity: 0.5, 
+  opacity: 0.5,
   ior: 1.5,
   envMap: enviromentMap,
   transmission: 0.8,
@@ -419,7 +419,7 @@ window.addEventListener("mousemove", (e) => {
   const newPointerX = (e.clientX / window.innerWidth) * 2 - 1;
   const newPointerY = -(e.clientY / window.innerHeight) * 2 + 1;
 
-// Nur Raycaster updaten wenn sich Maus wirklich bewegt hat und kein Modal offen ist
+  // Nur Raycaster updaten wenn sich Maus wirklich bewegt hat und kein Modal offen ist
   if (
     !isModalOpen &&
     (Math.abs(newPointerX - pointer.x) > 0.001 ||
@@ -434,27 +434,26 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener(
   "touchstart",
   (e) => {
-    e.preventDefault();
-    if (!isModalOpen) {
+    // Only update pointer if not in a modal - allow default for UI interaction
+    if (!isModalOpen && e.touches.length > 0) {
       pointer.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
       pointer.y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
     }
   },
-  { passive: false },
+  { passive: true }, // passive: true improves scrolling performance
+
 );
 
 window.addEventListener(
   "touchend",
-  (e) => {
-    e.preventDefault();
-    if (!isModalOpen) {
-      handleRaycasterInteraction();
-    }
+  () => {
+    // No need to preventDefault here globally.
+    // Click events will fire after touchend if not canceled, handling the interaction.
   },
-  { passive: false },
+  { passive: true },
 );
 
-function handleRaycasterInteraction() {}
+function handleRaycasterInteraction() { }
 
 window.addEventListener("click", (e) => {
   if (!isModalOpen && currentIntersects.length > 0) {
@@ -494,7 +493,7 @@ loader.load("/models/Roomi-v1.glb", (glb) => {
         // Hover-Zielwerte RELATIV berechnen
         child.userData.hoverScale = new THREE.Vector3()
           .copy(child.scale)
-          .multiplyScalar(1.5); 
+          .multiplyScalar(1.5);
 
         console.log("Hover transformiert:", child.name);
       }
@@ -763,7 +762,7 @@ function playIntroAnimation() {
       "-=0.5",
     )
 
-     .to(
+    .to(
       animatedObjects.Dixiclock.scale,
       {
         x: 1,
@@ -772,7 +771,7 @@ function playIntroAnimation() {
       },
       "-=0.5",
     )
-     .to(
+    .to(
       animatedObjects.Gandalf.scale,
       {
         x: 1,
@@ -781,7 +780,7 @@ function playIntroAnimation() {
       },
       "-=0.3",
     )
-     .to(
+    .to(
       animatedObjects.Name_K.scale,
       {
         x: 1,
@@ -790,7 +789,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_E.scale,
       {
         x: 1,
@@ -799,7 +798,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_V.scale,
       {
         x: 1,
@@ -808,7 +807,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_I.scale,
       {
         x: 1,
@@ -817,7 +816,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_N1.scale,
       {
         x: 1,
@@ -826,7 +825,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_B.scale,
       {
         x: 1,
@@ -835,7 +834,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_A1.scale,
       {
         x: 1,
@@ -844,7 +843,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_U.scale,
       {
         x: 1,
@@ -853,7 +852,7 @@ function playIntroAnimation() {
       },
       "-=0.3",
     )
-     .to(
+    .to(
       animatedObjects.Name_N2.scale,
       {
         x: 1,
@@ -862,7 +861,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_A2.scale,
       {
         x: 1,
@@ -871,7 +870,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_C.scale,
       {
         x: 1,
@@ -880,7 +879,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-     .to(
+    .to(
       animatedObjects.Name_H.scale,
       {
         x: 1,
@@ -889,7 +888,7 @@ function playIntroAnimation() {
       },
       "-=0.7",
     )
-    
+
 }
 
 const scene = new THREE.Scene();
@@ -929,7 +928,7 @@ controls.addEventListener("start", () => {
 });
 controls.addEventListener("end", () => {
   isDragging = false;
-  raycasterNeedsUpdate = true; 
+  raycasterNeedsUpdate = true;
 });
 controls.update();
 
@@ -938,11 +937,11 @@ window.addEventListener("resize", () => {
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
 
-//Update camera
+  //Update camera
   camera.aspect = sizes.width / sizes.height;
   camera.updateProjectionMatrix();
 
-// Update renderer
+  // Update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
@@ -957,7 +956,7 @@ const render = () => {
     fan.rotation.y -= 0.1;
   });
 
-// ICON BANNER ANIMATION
+  // ICON BANNER ANIMATION
   bannerTime += 0.018;
   bannerCtx.clearRect(0, 0, bannerCanvas.width, bannerCanvas.height); // Transparenz!
 
@@ -978,7 +977,7 @@ const render = () => {
 
     const y = bannerCanvas.height / 2 - iconSize / 2;
 
-if (
+    if (
       iconLoadStates[imgIndex] &&
       iconImages[imgIndex].complete &&
       iconImages[imgIndex].naturalWidth > 0
@@ -989,13 +988,13 @@ if (
       // Fade-Effekt berechnen
       const fadeWidth = 150;
       let alpha = 1;
-      
+
       if (x < fadeWidth) {
         alpha = x / fadeWidth;
       } else if (x > bannerCanvas.width - fadeWidth - iconSize) {
         alpha = (bannerCanvas.width - x - iconSize) / fadeWidth;
       }
-      
+
       alpha = Math.max(0, Math.min(1, alpha));
       bannerCtx.globalAlpha = alpha;
 
@@ -1010,23 +1009,23 @@ if (
         iconSize,
       );
       bannerCtx.restore();
-      
+
       bannerCtx.globalAlpha = 1;
     }
   }
 
-bannerCtx.shadowBlur = 0;
-  
+  bannerCtx.shadowBlur = 0;
+
   bannerTexture.needsUpdate = true;
 
-// Performance: Raycaster nur ausführen wenn nicht dragging, kein Modal offen und Update benötigt
+  // Performance: Raycaster nur ausführen wenn nicht dragging, kein Modal offen und Update benötigt
   if (!isDragging && !isModalOpen && raycasterNeedsUpdate) {
     raycaster.setFromCamera(pointer, camera);
     currentIntersects = raycaster.intersectObjects(raycasterObjects, false); // Nur relevante Objekte checken
     raycasterNeedsUpdate = false;
   }
 
-// Aktuell gehoverte ermitteln (nur wenn nicht dragging und kein Modal offen)
+  // Aktuell gehoverte ermitteln (nur wenn nicht dragging und kein Modal offen)
   const currentHovered = new Set();
   if (!isDragging && !isModalOpen) {
     currentIntersects.forEach((intersect) => {
@@ -1038,7 +1037,7 @@ bannerCtx.shadowBlur = 0;
     });
   }
 
-// 1. ALLE aktiven Hover-Objekte resetten/animieren
+  // 1. ALLE aktiven Hover-Objekte resetten/animieren
   activeHoverObjects.forEach((obj) => {
     const isHovered = currentHovered.has(obj);
     if (obj.userData.initialScale) {
