@@ -241,6 +241,22 @@ manager.onLoad = function () {
   loadingScreenButton.style.transition =
     "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
+  gsap.set(".loading-screen-hint", { y: 15, opacity: 0 });
+  
+  gsap.timeline({ repeat: 1, repeatDelay: 1.5 })
+    .to(".loading-screen-hint", { 
+      y: 0, 
+      opacity: 0.9, 
+      duration: 0.6, 
+      ease: "power2.out" 
+    })
+    .to(".loading-screen-hint", { 
+      scale: 1.2, 
+      duration: 0.3, 
+      yoyo: true, 
+      repeat: 1 
+    });
+
   document.body.style.visibility = "visible";
 
   let isDisabled = false;
@@ -436,13 +452,12 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener(
   "touchstart",
   (e) => {
-    // Pointer update ONLY if not in a modal, default UI interaction
     if (!isModalOpen && e.touches.length > 0) {
       pointer.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
       pointer.y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
     }
   },
-  { passive: true }, // passive: true improves scrolling performance
+  { passive: true }, 
 );
 
 window.addEventListener("touchend", () => {}, { passive: true });
@@ -474,7 +489,6 @@ window.addEventListener("click", (e) => {
 });
 
 loader.load("/models/Roomi-v1.glb", (glb) => {
-  // Material Cache to prevent memory leaks and crashes
   const createdMaterials = {};
 
   glb.scene.traverse((child) => {
@@ -672,10 +686,8 @@ loader.load("/models/Roomi-v1.glb", (glb) => {
   glb.scene.scale.set(0.01, 0.01, 0.01);
   glb.scene.scale.setScalar(0.01);
 }, (xhr) => {
-    // optional: download progress
 }, (error) => {
     console.error('An error happened loading the GLB:', error);
-    // Optionally remove loading screen or show error
     document.querySelector(".loading-screen-button").textContent = "Error Loading";
     document.querySelector(".loading-screen-button").style.color = "red";
 });
@@ -931,7 +943,7 @@ controls.target.set(
   -11.60751480655244,
 );
 
-// Performance: Track dragging state
+
 controls.addEventListener("start", () => {
   isDragging = true;
 });

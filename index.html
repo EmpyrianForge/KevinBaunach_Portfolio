@@ -22,31 +22,30 @@
 
     <div class="loading-screen">
       <button class="loading-screen-button">Loading...</button>
+      <p class="loading-screen-hint">
+        Rechts-/Linksklick und Mausrad zum Navigieren
+      </p>
     </div>
     <div class="work modal">
       <h2>My Work</h2>
       <p>
-        Als angehender Fachinformatiker für Anwendungsentwicklung verbinde ich
-        Webentwicklung mit 3D-Design und interaktiven Visualisierungen. Mein
-        aktueller Fokus liegt auf Embedded Systems, wie man mit ihnen agiert und
-        sie programmiert. Die Sprache C soll mir dabei helfen tiefere Einblicke
-        in Hardwarenähe zu gewinnen und Python hilft mir schneller Erfolge im
-        Prototyping zu erzielen.
+        Fokus: Embedded Systems (C für Hardwarenähe, Python für Prototyping).
+        Webentwicklung trifft 3D-Design in interaktiven Visualisierungen.
       </p>
 
       <h3>Aktuelle Projekte</h3>
       <ul>
         <li>
-          <strong>KreativKonstruction:</strong> 3D-Druck mit FDM und Resin sowie
-          Lasercutting und gravieren.
+          <strong>Prototyping:</strong> 3D-Druck (FDM/Resin) • Lasercutting •
+          Gravieren
         </li>
         <li>
           <strong>Portfolio-Website:</strong> Interaktive 3D-Visualisierung von
           Modellen mit Three.js.
         </li>
         <li>
-          <strong>Fun Projekt:</strong> Eigener AI-Agent in Python geschrieben
-          und Gemini API anbindung.
+          <strong>Fun Projekt:</strong> AI-Agent geschrieben in Python mit
+          Gemini API anbindung.
         </li>
         <li>
           <strong>Embedded Systems:</strong> IIoT-Projekte mit Raspberry Pi und
@@ -59,10 +58,13 @@
     <div class="about modal">
       <h2>About Me</h2>
       <p>
-        Ich bin IT-Anwendungsentwickler in der Umschulung mit Leidenschaft für
-        3D-Technologien und kreative Problemlösungen. Mein Arbeitsalltag
-        kombiniert strukturiertes Lernen mit selbstgesteuerten Projekten in
-        Web-, Game- und Embedded-Development.
+        Ich bin Umschüler zum Fachinformatiker für Anwendungsentwicklung mit
+        einer schon jahrelang bestehenden Leidenschaft für 3D-Technologien und
+        kreative Problemlösungen im Bereich der Programmierung. Mein Alltag
+        verbindet strukturierte Ausbildung mit selbstständigen Projekten in
+        Webentwicklung, 3D-Asset-Design und Embedded Systems. Ich liebe es, mich
+        mit neuen Technologien auseinanderzusetzen und mein Wissen Tag für Tag
+        zu erweitern.
       </p>
 
       <h3>Skills & Tools</h3>
@@ -76,14 +78,15 @@
           <strong>Web Stack:</strong>Vite, Node.js, Git/GitHub, Vercel, GSAP
         </li>
         <li>
-          <strong>Hardware:</strong> 3D-Printing (FDM/Resin), Raspberry Pi,
-          Arduino,
+          <strong>Hardware:</strong> Bambulab H2C/P1S • Anycubic Photon Mono •
+          Raspberry Pi • Arduino
         </li>
       </ul>
 
       <p>
-        Aktuell erweitere ich mein Wissen in C um tiefer in die Welt des
-        Low-Levels eintauchen zu können.
+        Aktuell erweitere ich mein Wissen in der Sprache C um tiefer in die Welt
+        des Low-Levels eintauchen zu können um mein persöhnliches IIOT-Projekt
+        fertigstellen zu können.
       </p>
 
       <button class="modal-exit-button">EXIT BUTTON</button>
@@ -103,7 +106,7 @@
             class="email-button"
             onclick="window.location.href = 'mailto:kvnbaunach@googlemail.com'"
           >
-            <div class="icon-placeholder email-icon">📧</div>
+            <img src="./icons/email.png" alt="email" class="contact-icon-img" />
             <span>Email</span>
           </button>
         </div>
@@ -114,18 +117,45 @@
             rel="noopener noreferrer"
             class="github-button"
           >
-            <div class="icon-placeholder github-icon">🐙</div>
+            <img
+              src="./icons/Github.png"
+              alt="github"
+              class="contact-icon-img"
+            />
             <span>GitHub</span>
           </a>
         </div>
 
         <div class="contact-icon">
-          <div class="icon-placeholder empty-icon">💼</div>
-          <span>LinkedIn</span>
+          <a
+            href="https://www.boot.dev/u/forge"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="boot.dev-button"
+          >
+            <img
+              src="./icons/bootdotdev_logo.webp"
+              alt="boot.dev"
+              class="contact-icon-img"
+            />
+
+            <span>Boot.dev</span>
+          </a>
         </div>
         <div class="contact-icon">
-          <div class="icon-placeholder empty-icon">🚀</div>
-          <span>Portfolio</span>
+          <a
+            href="https://www.leetcode.com/forge"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="leetCode-button"
+          >
+            <img
+              src="./icons/LeetCode.png"
+              alt="LeetCode"
+              class="contact-icon-img"
+            />
+            <span>LeetCode</span>
+          </a>
         </div>
       </div>
 
