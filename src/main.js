@@ -139,7 +139,7 @@ const animatedObjects = {
   GitHubFront: null,
   InstaButton: null,
   MakerWorldButton: null,
-  ResinFormlabs_Glass: null,
+  ResinFormlabs_Orange: null,
   ResinFormlabs: null,
   Dixiclock: null,
   Gandalf: null,
@@ -388,7 +388,7 @@ const blueMaterial = new THREE.MeshPhysicalMaterial({
   depthWrite: false,
 });
 
-// Orange Glass Material für ResinFormlabs_Glass
+// Orange Glass Material für ResinFormlabs_Orange
 const orangeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0xff8c00,
   metalness: 0,
@@ -520,15 +520,20 @@ loader.load("/models/Roomi-v1.glb", (glb) => {
         animatedObjects.Shield_Contact = child;
         child.scale.set(0, 0, 0);
       }
-      if (child.name.includes("H2C")) {
-        animatedObjects.H2C = child;
-        child.userData.originalScale = child.scale.clone();
-        child.scale.set(0, 0, 0);
-      }
       if (child.name.includes("H2C_Green")) {
         animatedObjects.H2C_Green = child;
         child.userData.originalScale = child.scale.clone();
         child.scale.set(0, 0, 0);
+      } else if (child.name.includes("H2C")) {
+        animatedObjects.H2C = child;
+        child.userData.originalScale = child.scale.clone();
+        child.scale.set(0, 0, 0);
+      }
+
+      if (child.name.includes("ResinFormlabs_Orange")) {
+        animatedObjects.ResinFormlabs_Orange = child;
+      } else if (child.name.includes("ResinFormlabs")) {
+        animatedObjects.ResinFormlabs = child;
       }
       if (child.name.includes("GitHubFront")) {
         animatedObjects.GitHubFront = child;
@@ -1051,8 +1056,29 @@ const render = () => {
     currentIntersects.forEach((intersect) => {
       const obj = intersect.object;
       if (obj.name.includes("_Hover")) {
-        currentHovered.add(obj);
-        activeHoverObjects.add(obj);
+        // Überprüfe Gruppen-Hover (H2C und ResinFormlabs)
+        if (obj.name.includes("H2C")) {
+          if (animatedObjects.H2C) {
+            currentHovered.add(animatedObjects.H2C);
+            activeHoverObjects.add(animatedObjects.H2C);
+          }
+          if (animatedObjects.H2C_Green) {
+            currentHovered.add(animatedObjects.H2C_Green);
+            activeHoverObjects.add(animatedObjects.H2C_Green);
+          }
+        } else if (obj.name.includes("ResinFormlabs")) {
+          if (animatedObjects.ResinFormlabs) {
+            currentHovered.add(animatedObjects.ResinFormlabs);
+            activeHoverObjects.add(animatedObjects.ResinFormlabs);
+          }
+          if (animatedObjects.ResinFormlabs_Orange) {
+            currentHovered.add(animatedObjects.ResinFormlabs_Orange);
+            activeHoverObjects.add(animatedObjects.ResinFormlabs_Orange);
+          }
+        } else {
+          currentHovered.add(obj);
+          activeHoverObjects.add(obj);
+        }
       }
     });
   }
