@@ -16,5 +16,6 @@ This project is still under active development. The main functionality is in pla
 - JavaScript/Vite
 - GSAP (Animations)
 - HTML5/CSS3
+- Node.js
 
 
