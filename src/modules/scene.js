@@ -3,7 +3,11 @@ import { OrbitControls } from "../utils/OrbitControls.js";
 import { SIZES } from "./config.js";
 import { state } from "./state.js";
 
+import { environmentMap } from "./materials.js";
+
 export const scene = new THREE.Scene();
+scene.environment = environmentMap;
+scene.background = environmentMap;
 
 export const camera = new THREE.PerspectiveCamera(
   45,

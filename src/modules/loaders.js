@@ -48,7 +48,7 @@ export const initLoaders = () => {
 const setupLoadingScreen = () => {
   loadingScreenButton.style.border = "8px solid #55293A";
   loadingScreenButton.style.backgroundColor = "#A6754A";
-  loadingScreenButton.style.color = "#e6dede";
+  loadingScreenButton.style.color = "#e5dee6";
   loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px ";
   loadingScreenButton.textContent = "Click to Enter";
   loadingScreenButton.style.cursor = "pointer";
@@ -62,7 +62,7 @@ const setupLoadingScreen = () => {
   const handleEnter = () => {
     if (isDisabled) return;
     loadingScreenButton.textContent = "Entering...";
-    loadingScreen.style.background = "#ead7ef";
+    loadingScreen.style.background = "#51182c";
     isDisabled = true;
     import("./animations.js").then((m) => m.playReveal());
   };
